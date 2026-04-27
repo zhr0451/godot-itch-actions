@@ -1,3 +1,6 @@
 .codex
 .gitignore
 AGENTS.md
+/.github
+README.md
+/example
