@@ -1,0 +1,16 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1777324046
+icon.svg::CompressedTexture2D::1636564065456058611::1777323373::1777323376::1::::<><><>0<>0<>995656022f120a2af969f27b6bc2ef14<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile::-1::1777323431::0::1::::<><><>0<>0<><>::
+::res://addons/::1777323431
+::res://addons/kenney_tiny_battle_assets/::1777323666
+tilemap_packed.png::CompressedTexture2D::385921324860621221::1777323431::1777323431::1::::<><><>0<>0<>4152f81a6d746820db5839405b31ab66<>res://.godot/imported/tilemap_packed.png-c13e4ccd642336f7da8bf6f1a73415f8.ctex::
+tiny_battle_tile_set.tres::TileSet::7333763529599898826::1777323666::0::1::::<><><>0<>0<><>::uid://fq7ckoiswa0d::::res://addons/kenney_tiny_battle_assets/tilemap_packed.png
+::res://addons/kenney_tiny_battle_assets/meta/::1777323432
+icon.png::CompressedTexture2D::4054203559185384224::1777323431::1777323431::1::::<><><>0<>0<>a4bd5828d93acdda7977b467d4d900ac<>res://.godot/imported/icon.png-6feca0a5c9cf15c60633cea67466fc6d.ctex::
+preview.png::CompressedTexture2D::6832135209517037411::1777323431::1777323432::1::::<><><>0<>0<>890ed3f91ae11a4fb5610096dd6ce42c<>res://.godot/imported/preview.png-b51487224c19b1e997bb6cd6d8181039.ctex::
+whole.png::CompressedTexture2D::6327812675751881765::1777323431::1777323432::1::::<><><>0<>0<>d538e216dfa12b3648ca216aaf939c66<>res://.godot/imported/whole.png-78203d0d9879a89c6c055dfeb66461c1.ctex::
+::res://scenes/::1777324014
+main_scene.tscn::PackedScene::8220209246907350889::1777324014::0::1::::<><><>0<>0<><>::uid://dcqsaqauus3w5::::res://addons/kenney_tiny_battle_assets/tiny_battle_tile_set.tres<>uid://bv2qsoo5mkr3c::::res://src/char_controller.gd
+::res://src/::1777324014
+char_controller.gd::GDScript::3917128973959622862::1777324014::0::1::::<>CharacterBody2D<><>0<>0<><>::
