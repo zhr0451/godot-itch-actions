@@ -1,69 +1,68 @@
 # Godot to itch.io actions
 
-Этот репозиторий содержит ci-пайплайн для автоматической сборки и деплоя godot-проектов.
+This repository contains a CI pipeline for automatically building and deploying Godot projects.
 
-## Поддержка версий
+## Version support
 
-На данный момент поддерживается только версия 4.6.2. Более ранние версии не будут поддерживаться. Я буду собирать образы только для более новых версий движка.
+At the moment, only version 4.6.2 is supported. Earlier versions will not be supported. I will only build images for newer engine versions.
 
-Также поддерживается только **windows**, **linux** и **web-билды** игр. Возможно, в будущем появится поддержка версий под mac. Поддержка мобильных версий не планируется.
+The pipeline also supports only **Windows**, **Linux**, and **web builds** of games. Mac support may appear in the future. Mobile version support is not planned.
 
-Данный инструмент был собран в первую очередь для того, чтобы разработчики могли быстро выкладывать свои проекты на itch.io в процессе разработки проектов на джем/пк-релизов.
+This tool was built primarily so developers can quickly publish their projects to itch.io while working on jam games or PC releases.
 
-Если вы используете gitlab, вам нужна более обширная поддержка, то лучше обратитесь к проекту [abarichello/godot-ci](https://github.com/abarichello/godot-ci). В нём реализована поддержка большего количества платформ, а основной фокус идёт на использование ci с gitlab. В моём проекте есть поддержка исключительно github actions.
+If you use GitLab or need broader support, you are probably better off using [abarichello/godot-ci](https://github.com/abarichello/godot-ci). It supports more platforms, and its main focus is CI with GitLab. My project supports GitHub Actions only.
 
-## Установка и настройка
+## Installation and setup
 
-Для того, чтобы использовать пайплайн сначала создайте секреты и переменные в своём репозитории.
+To use the pipeline, first create secrets and variables in your repository.
 
-### Настройка секретов
+### Secret setup
 
-Для того, чтобы указать секреты нужно перейти в `Settings > Secrets and variables > Actions > Secrets`
+To add secrets, go to `Settings > Secrets and variables > Actions > Secrets`.
 
-| Secret    | Значение                                               |
-| --------- | ------------------------------------------------------ |
+| Secret | Value |
+| ------ | ----- |
 | BUTLER_API_KEY | [api key](https://itch.io/docs/butler/login.html) |
 
-Этот секрет используется для того, чтобы выполнить вход в butler и задеплоить игру на itch.io. Для того, чтобы его получить:
+This secret is used to log in with Butler and deploy the game to itch.io. To get it:
 
-1. Скачайте [butler](https://itch.io/docs/butler/installing.html) локально и выполните butler login локально. 
-2. После этого перейдите на страницу [API keys](https://itch.io/user/settings/api-keys) и найдите апи-ключ с значением `wharf`. Значение этого ключа и нужно скопировать в секрет `BUTLER_API_KEY`
+1. Download [Butler](https://itch.io/docs/butler/installing.html) locally and run `butler login`.
+2. Then go to the [API keys](https://itch.io/user/settings/api-keys) page and find the API key with the `wharf` value. Copy that key into the `BUTLER_API_KEY` secret.
 
-### Настройка переменных
+### Variable setup
 
-| Переменная  | Значение         |
-| ----------- | ---------------- |
+| Variable | Value |
+| -------- | ----- |
 | ITCH_TARGET | `name/game_name` |
 
-Для того, чтобы указать секреты нужно перейти в `Settings > Secrets and variables > Actions > Variables`
+To add variables, go to `Settings > Secrets and variables > Actions > Variables`.
 
-Эта переменная используется для того, чтобы указать имя и название проекта, для корректного деплоя.
+This variable is used to specify the user name and project name for deployment.
 
-Для того, чтобы его узнать нужно зайти на страницу проекта, и достать из ссылки на игру: `https://name.itch.io/game-name`. Этой ссылки и достаются нужные данные. После чего их нужно добавить в переменную `name/game_name`.
+To find it, open the project page and take the needed values from the game URL: `https://name.itch.io/game-name`. Then add them as `name/game_name`.
 
-### Настройка пайплайна
+### Pipeline setup
 
-Далее в репозиторий нужно добавить `.github/workflows/godot-itch-actions.yml`
+Next, add `.github/workflows/godot-actions.yml` to your repository.
 
 ```bash
 mkdir -p .github/workflows/
-wget https://raw.githubusercontent.com/zhr0451/godot-itch-actions/refs/heads/main/.github/workflows/godot-itch-action.yml
+wget -O .github/workflows/godot-actions.yml https://raw.githubusercontent.com/zhr0451/godot-itch-actions/refs/heads/main/godot-actions.yml
 ```
 
-После этого workflow должен работать корректно. При любых изменениях в ветке `main`.
+After that, the workflow should run correctly on every change in the `main` branch.
 
-## Переменные
+## Variables
 
-В данный момент поддерживается только версия Godot 4.6.2, в дальнейшем планируется поддержка и более новых версий, по мере их выхода. Для того, чтобы изменить работу пайплайна, можно изменить `env`.
+Only Godot 4.6.2 is currently supported. Support for newer versions is planned as they are released. To change how the pipeline works, edit `env`.
 
 ```yml
 env:
   GODOT_VERSION: 4.6.2
-  EXPORT_NAME: example
-  PROJECT_PATH: example
+  EXPORT_NAME: project-name
+  PROJECT_PATH: .
 ```
 
-`GODOT_VERSION` — указывает версию движка;
-`EXPORT_NAME` — указывает название проекта;
-`PROJECT_PATH` — указывает путь к `project.godot`.
-
+`GODOT_VERSION` points to the engine version;
+`EXPORT_NAME` points to the project name;
+`PROJECT_PATH` points to the directory that contains `project.godot`.
