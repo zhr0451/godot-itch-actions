@@ -1,0 +1,29 @@
+[gd_scene format=4 uid="uid://dpd6v68hulktd"]
+
+[ext_resource type="TileSet" uid="uid://dcqsaqauus3w5" path="res://addons/kenney_tiny_battle_assets/tiny_battle_tile_set.tres" id="1_w2twt"]
+[ext_resource type="Script" uid="uid://bv2qsoo5mkr3c" path="res://src/char_controller.gd" id="2_pw63i"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_7ykc4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pu3yx"]
+size = Vector2(3, 7)
+
+[node name="Node2D" type="Node2D" unique_id=679867116]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1818830494]
+tile_map_data = PackedByteArray("AAD9////AAAAAAAAAAD+////AAABAAAAAAD/////AAACAAAAAAAAAP//AAAAAAAAAAABAP//AAABAAAAAAABAP7/AAABAAAAAAAAAP7/AAAAAAAAAAD///7/AAAAAAAAAAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAD+//7/AAAAAAAAAAD9//7/AAAAAAAAAAACAP7/AAADAAAAAAACAP//AAADAAEAAAADAP7/AAAEAAAAAAADAP//AAAEAAEAAAD9/wEAAAAAAAEAAAD9/wIAAAAAAAIAAAD9/wMAAAAAAAMAAAD+/wEAAAABAAEAAAD+/wIAAAABAAIAAAD+/wMAAAABAAMAAAD//wEAAAACAAEAAAD//wIAAAACAAIAAAD//wMAAAACAAMAAAAAAAEAAAAAAAAAAAABAAEAAAABAAAAAAAAAAIAAAAAAAAAAAABAAIAAAAAAAAAAAABAAMAAAAAAAAAAAAAAAMAAAAAAAAAAAACAAMAAAACAAAAAAADAAMAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAACAAAAAAADAAAAAAAAAAAAAAACAAAAAAAAAAAAAAACAAEAAAAAAAAAAAACAAIAAAAAAAAAAAA=")
+tile_set = ExtResource("1_w2twt")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=766582505]
+script = ExtResource("2_pw63i")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=222406144]
+position = Vector2(1.5, 3.5000002)
+scale = Vector2(2.9999998, 7.0000005)
+texture = SubResource("CanvasTexture_7ykc4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=411479013]
+position = Vector2(1.5, 3.5)
+shape = SubResource("RectangleShape2D_pu3yx")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=844200394]

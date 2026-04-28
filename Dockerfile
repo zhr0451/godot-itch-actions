@@ -24,6 +24,9 @@ RUN apt-get update \
         libxrandr2 \
         unzip \
         wget \
+        git \
+        git-lfs \
+        zip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
@@ -55,3 +58,6 @@ WORKDIR /workspace
 
 RUN godot --headless --version
 RUN butler version
+RUN git --version
+RUN git lfs version
+RUN zip -v

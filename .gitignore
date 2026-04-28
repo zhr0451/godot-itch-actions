@@ -1,2 +1,5 @@
 .codex
 .code
+build/
+**/.godot/
+.git
