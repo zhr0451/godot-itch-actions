@@ -58,3 +58,6 @@ WORKDIR /workspace
 
 RUN godot --headless --version
 RUN butler version
+RUN git --version
+RUN git lfs version
+RUN zip -v
