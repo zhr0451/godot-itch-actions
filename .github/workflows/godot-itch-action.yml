@@ -19,7 +19,7 @@ jobs:
   export:
     runs-on: ubuntu-24.04
     container:
-      image: zhr0451/godot-itch-actions:godot-4.6.2
+      image: zhr0451/godot-itch-actions:latest
 
     strategy:
       matrix:
