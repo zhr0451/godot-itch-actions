@@ -11,8 +11,8 @@ permissions:
 
 env:
   GODOT_VERSION: 4.6.2
-  EXPORT_NAME: example
-  PROJECT_PATH: example
+  EXPORT_NAME: project-name
+  PROJECT_PATH: .
   BUILD_VERSION: ${{ github.run_number }}
 
 jobs:

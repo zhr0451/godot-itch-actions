@@ -1,16 +1,69 @@
-# GitHub Actions CI/CD for Godot to itch.io
+# Godot to itch.io actions
 
-This repository contains a Docker image and GitHub Actions workflow for exporting
-Godot games and publishing builds to itch.io with Butler.
+Этот репозиторий содержит ci-пайплайн для автоматической сборки и деплоя godot-проектов.
 
-The `example/` directory is a small Godot project used to demonstrate the CI/CD
-pipeline. On every push to `main`, the workflow exports Linux, Windows, and Web
-builds from that project and uploads them as GitHub Actions artifacts.
+## Поддержка версий
 
-Publishing to itch.io is optional. To enable it for the example workflow, set:
+На данный момент поддерживается только версия 4.6.2. Более ранние версии не будут поддерживаться. Я буду собирать образы только для более новых версий движка.
 
-- Repository variable `ITCH_TARGET`, for example `svaika-games/my-game`.
-- Repository secret `BUTLER_API_KEY`.
+Также поддерживается только **windows**, **linux** и **web-билды** игр. Возможно, в будущем появится поддержка версий под mac. Поддержка мобильных версий не планируется.
 
-The Web build is archived as `build/web.zip` before publishing, with `index.html`
-at the root of the archive.
+Данный инструмент был собран в первую очередь для того, чтобы разработчики могли быстро выкладывать свои проекты на itch.io в процессе разработки проектов на джем/пк-релизов.
+
+Если вы используете gitlab, вам нужна более обширная поддержка, то лучше обратитесь к проекту [abarichello/godot-ci](https://github.com/abarichello/godot-ci). В нём реализована поддержка большего количества платформ, а основной фокус идёт на использование ci с gitlab. В моём проекте есть поддержка исключительно github actions.
+
+## Установка и настройка
+
+Для того, чтобы использовать пайплайн сначала создайте секреты и переменные в своём репозитории.
+
+### Настройка секретов
+
+Для того, чтобы указать секреты нужно перейти в `Settings > Secrets and variables > Actions > Secrets`
+
+| Secret    | Значение                                               |
+| --------- | ------------------------------------------------------ |
+| BUTLER_API_KEY | [api key](https://itch.io/docs/butler/login.html) |
+
+Этот секрет используется для того, чтобы выполнить вход в butler и задеплоить игру на itch.io. Для того, чтобы его получить:
+
+1. Скачайте [butler](https://itch.io/docs/butler/installing.html) локально и выполните butler login локально. 
+2. После этого перейдите на страницу [API keys](https://itch.io/user/settings/api-keys) и найдите апи-ключ с значением `wharf`. Значение этого ключа и нужно скопировать в секрет `BUTLER_API_KEY`
+
+### Настройка переменных
+
+| Переменная  | Значение         |
+| ----------- | ---------------- |
+| ITCH_TARGET | `name/game_name` |
+
+Для того, чтобы указать секреты нужно перейти в `Settings > Secrets and variables > Actions > Variables`
+
+Эта переменная используется для того, чтобы указать имя и название проекта, для корректного деплоя.
+
+Для того, чтобы его узнать нужно зайти на страницу проекта, и достать из ссылки на игру: `https://name.itch.io/game-name`. Этой ссылки и достаются нужные данные. После чего их нужно добавить в переменную `name/game_name`.
+
+### Настройка пайплайна
+
+Далее в репозиторий нужно добавить `.github/workflows/godot-itch-actions.yml`
+
+```bash
+mkdir -p .github/workflows/
+wget https://raw.githubusercontent.com/zhr0451/godot-itch-actions/refs/heads/main/.github/workflows/godot-itch-action.yml
+```
+
+После этого workflow должен работать корректно. При любых изменениях в ветке `main`.
+
+## Переменные
+
+В данный момент поддерживается только версия Godot 4.6.2, в дальнейшем планируется поддержка и более новых версий, по мере их выхода. Для того, чтобы изменить работу пайплайна, можно изменить `env`.
+
+```yml
+env:
+  GODOT_VERSION: 4.6.2
+  EXPORT_NAME: example
+  PROJECT_PATH: example
+```
+
+`GODOT_VERSION` — указывает версию движка;
+`EXPORT_NAME` — указывает название проекта;
+`PROJECT_PATH` — указывает путь к `project.godot`.
+
