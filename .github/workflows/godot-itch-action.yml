@@ -1,0 +1,86 @@
+name: Godot to itch.io Actions
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: 4.6.2
+  EXPORT_NAME: example
+  PROJECT_PATH: example
+  BUILD_VERSION: ${{ github.ref_name }}-${{ github.run_number }}
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    container:
+      image: zhr0451/godot-itch-actions:godot-4.6.2
+
+    strategy:
+      matrix:
+        include:
+          - name: linux
+            preset: Linux
+            output: build/linux/example.x86_64
+            artifact_path: build/linux
+            push_path: build/linux
+            channel: linux
+          - name: windows
+            preset: Windows Desktop
+            output: build/windows/example.exe
+            artifact_path: build/windows
+            push_path: build/windows
+            channel: windows
+          - name: web
+            preset: Web
+            output: build/web/index.html
+            artifact_path: build/web.zip
+            push_path: build/web.zip
+            channel: html5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Setup Godot export templates
+        run: |
+          mkdir -p "$HOME/.local/share/godot/export_templates"
+          cp -a "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" \
+            "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+
+      - name: Export ${{ matrix.name }}
+        run: |
+          mkdir -p "$(dirname "${{ matrix.output }}")"
+          godot --headless --verbose --path "$PROJECT_PATH" --export-release "${{ matrix.preset }}" "$GITHUB_WORKSPACE/${{ matrix.output }}"
+
+      - name: Archive web build
+        if: matrix.name == 'web'
+        run: |
+          cd build/web
+          zip -qr ../web.zip .
+
+      - name: Upload ${{ matrix.name }} artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ matrix.artifact_path }}
+
+      - name: Publish ${{ matrix.name }} to itch.io
+        if: vars.ITCH_TARGET != ''
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          ITCH_TARGET: ${{ vars.ITCH_TARGET }}
+        run: |
+          if [ -z "$BUTLER_API_KEY" ]; then
+            echo "BUTLER_API_KEY secret is required when ITCH_TARGET is set."
+            exit 1
+          fi
+
+          butler push "${{ matrix.push_path }}" "$ITCH_TARGET:${{ matrix.channel }}" --userversion "$BUILD_VERSION"

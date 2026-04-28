@@ -24,6 +24,9 @@ RUN apt-get update \
         libxrandr2 \
         unzip \
         wget \
+        git \
+        git-lfs \
+        zip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
