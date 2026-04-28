@@ -11,8 +11,8 @@ permissions:
 
 env:
   GODOT_VERSION: 4.6.2
-  EXPORT_NAME: example
-  PROJECT_PATH: example
+  EXPORT_NAME: project-name
+  PROJECT_PATH: .
   BUILD_VERSION: ${{ github.run_number }}
 
 jobs:
@@ -26,13 +26,13 @@ jobs:
         include:
           - name: linux
             preset: Linux
-            output: build/linux/example.x86_64
+            output: build/linux/${EXPORT_NAME}.x86_64
             artifact_path: build/linux
             push_path: build/linux
             channel: linux
           - name: windows
             preset: Windows Desktop
-            output: build/windows/example.exe
+            output: build/windows/${EXPORT_NAME}.exe
             artifact_path: build/windows
             push_path: build/windows
             channel: windows
